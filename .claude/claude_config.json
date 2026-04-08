@@ -1,0 +1,68 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      },
+      "_comment": "Allows Claude to read PRs, issues, create branches, comment on code. Set GITHUB_TOKEN in your environment."
+    },
+
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/workspace"
+      ],
+      "_comment": "Scopes Claude's file access to /workspace only. Change the path to match your project root."
+    }
+  },
+
+  "_disabled_servers": {
+    "_comment": "Uncomment the servers you want to enable by moving them to mcpServers above.",
+
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}"
+      }
+    },
+
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-slack"],
+      "env": {
+        "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}"
+      }
+    },
+
+    "brave-search": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      }
+    },
+
+    "puppeteer": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"],
+      "_comment": "Gives Claude browser control for UI testing"
+    }
+  },
+
+  "permissions": {
+    "github": {
+      "read": ["*"],
+      "write": ["YOUR_ORG/YOUR_REPO"],
+      "_comment": "TODO: Restrict write access to your specific repo only"
+    },
+    "filesystem": {
+      "allowed_paths": ["/workspace"],
+      "forbidden_patterns": ["*.env", "*.pem", "*.key", "**/.ssh/**"]
+    }
+  }
+}

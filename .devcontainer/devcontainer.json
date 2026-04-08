@@ -1,0 +1,71 @@
+{
+  "name": "Agentic Dev Environment",
+
+  // TODO: Choose a base image that matches your stack, or use a Dockerfile
+  // Common options:
+  //   "mcr.microsoft.com/devcontainers/typescript-node:20"
+  //   "mcr.microsoft.com/devcontainers/python:3.12"
+  //   "mcr.microsoft.com/devcontainers/go:1.22"
+  //   "mcr.microsoft.com/devcontainers/universal:2"  (multi-language)
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+
+  // Runs once when container is first created
+  "postCreateCommand": "bash .devcontainer/scripts/post-create.sh",
+
+  // Runs every time container starts
+  "postStartCommand": "bash .devcontainer/scripts/post-start.sh",
+
+  // Environment variables available inside the container
+  // These are pulled from your local environment — set them in your shell profile
+  "remoteEnv": {
+    "GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}",
+    "DATABASE_URL": "${localEnv:DATABASE_URL}",
+    "NODE_ENV": "development"
+    // TODO: Add your project's required env vars here
+  },
+
+  // Port forwarding — add ports your dev server uses
+  "forwardPorts": [
+    // 3000,   // Node/Next.js dev server
+    // 8000,   // Python/FastAPI dev server
+    // 5432,   // PostgreSQL
+    // 6379    // Redis
+  ],
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        // Copilot settings — pre-configured for agentic work
+        "github.copilot.enable": { "*": true },
+        "github.copilot.chat.agent.enabled": true,
+        "github.copilot.nextEditSuggestions.enabled": true,
+        "github.copilot.chat.defaultModel": "gpt-4o",
+
+        // Code quality
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll": "explicit"
+        },
+
+        // Copilot persistent instructions (customize for your project)
+        "github.copilot.chat.codeGeneration.instructions": [
+          { "file": ".github/copilot-instructions.md" }
+        ],
+        "github.copilot.chat.testGeneration.instructions": [
+          { "text": "Follow the project's test patterns in the tests/ directory." }
+        ]
+      },
+
+      "extensions": [
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        // TODO: Add your project's VS Code extensions
+        // "dbaeumer.vscode-eslint",
+        // "esbenp.prettier-vscode",
+        // "ms-python.python",
+        // "ms-python.vscode-pylance",
+        // "golang.Go"
+      ]
+    }
+  }
+}

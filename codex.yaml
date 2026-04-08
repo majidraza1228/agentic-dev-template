@@ -1,0 +1,92 @@
+# codex.yaml — OpenAI Codex Configuration
+# Controls the sandbox environment, tool permissions, and git behaviour for every Codex task.
+# Adjust to match your project's stack and security requirements.
+
+# ---------------------------------------------------------------------------
+# Git behaviour
+# ---------------------------------------------------------------------------
+git:
+  base_branch: "develop"          # Codex branches off develop (not main)
+  branch_prefix: "codex/"         # All agent branches: codex/<description>
+  auto_pr: true                   # Automatically open a PR when task completes
+  pr_target: "develop"            # PR targets develop, never main
+  draft_pr: true                  # Always open as Draft — human must mark ready
+  commit_tag: "[codex]"           # Appended to all Codex commit messages
+
+# ---------------------------------------------------------------------------
+# Runtime environment
+# ---------------------------------------------------------------------------
+environment:
+  # TODO: Set your runtime versions
+  # python: "3.12"
+  # node: "20"
+  # go: "1.22"
+
+  install_commands:
+    # TODO: Replace with your actual install command
+    - "echo 'TODO: add your install command (e.g. pip install -r requirements.txt)'"
+
+  setup_commands:
+    # These run as pre-task hooks before Codex touches any code
+    - "bash scripts/pre-task.sh"
+
+# ---------------------------------------------------------------------------
+# Tool permissions
+# ---------------------------------------------------------------------------
+tools:
+  terminal: true          # Allow shell command execution
+  file_read: true         # Allow reading repo files
+  file_write: true        # Allow creating and editing files
+  web_search: false       # Disable arbitrary web browsing (security)
+  network: false          # No outbound network by default (override below)
+
+# ---------------------------------------------------------------------------
+# Network access (allowlist)
+# ---------------------------------------------------------------------------
+network:
+  enabled: false          # Set to true if install commands need network
+  allowlist:
+    # TODO: Add only what your install commands need
+    # - "pypi.org"
+    # - "registry.npmjs.org"
+    # - "proxy.golang.org"
+    # - "api.github.com"
+  blocklist:
+    - "169.254.169.254"   # Block AWS/GCP metadata endpoints
+    - "0.0.0.0/8"         # Block internal network ranges
+
+# ---------------------------------------------------------------------------
+# Resource limits
+# ---------------------------------------------------------------------------
+limits:
+  max_runtime_minutes: 30     # Stop runaway tasks after 30 minutes
+  max_file_size_mb: 10        # Reject file writes larger than 10MB
+  max_files_changed: 20       # Pause and check-in if scope exceeds 20 files
+
+# ---------------------------------------------------------------------------
+# Security — filesystem restrictions
+# ---------------------------------------------------------------------------
+security:
+  readonly_paths:
+    # TODO: Add your protected paths
+    # - "migrations/"
+    # - "src/core/security.py"
+    - ".github/workflows/"
+
+  forbidden_patterns:
+    - "*.env"
+    - "*.pem"
+    - "*.key"
+    - "*.p12"
+    - "*secret*"
+    - "*password*"
+    - "*credentials*"
+
+  blocked_commands:
+    - "curl"          # No arbitrary HTTP
+    - "wget"
+    - "ssh"
+    - "nc"            # No netcat
+    - "sudo"          # No privilege escalation
+    - "su"
+    - "chmod 777"     # No world-writable permissions

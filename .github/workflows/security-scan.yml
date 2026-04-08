@@ -1,0 +1,41 @@
+name: Security Scan (CodeQL + Copilot Autofix)
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: '0 8 * * 1'   # Weekly on Mondays at 8am UTC
+
+jobs:
+  codeql:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # TODO: Add your project's languages
+        language: ['javascript', 'typescript']
+        # Other options: 'python', 'go', 'java', 'ruby', 'cpp'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          # Copilot Autofix will suggest fixes for any vulnerabilities found
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"

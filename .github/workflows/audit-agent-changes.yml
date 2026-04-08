@@ -1,0 +1,82 @@
+name: Audit Agent Changes
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches: ['agent/**', 'copilot/**', 'codex/**']
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate change audit report
+        id: audit
+        run: |
+          BASE="${{ github.base_ref }}"
+          FILES_CHANGED=$(git diff --name-only origin/$BASE...HEAD | wc -l)
+          LINES_SUMMARY=$(git diff --stat origin/$BASE...HEAD | tail -1)
+          FILE_LIST=$(git diff --name-only origin/$BASE...HEAD)
+
+          # Check for sensitive file changes
+          SENSITIVE=$(echo "$FILE_LIST" | grep -E "(auth|security|secret|password|\.env|\.pem|\.key|migration|alembic)" || echo "none")
+
+          # Write to step summary
+          echo "## 🤖 Agent PR Audit Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** \`${{ github.head_ref }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Files changed:** $FILES_CHANGED" >> $GITHUB_STEP_SUMMARY
+          echo "**Change summary:** $LINES_SUMMARY" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Files Changed" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "$FILE_LIST" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+          if [ "$SENSITIVE" != "none" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### ⚠️ Sensitive Files Changed" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "$SENSITIVE" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "> These files require careful security review before merging." >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # Set outputs
+          echo "files_changed=$FILES_CHANGED" >> $GITHUB_OUTPUT
+          echo "sensitive_files=$SENSITIVE" >> $GITHUB_OUTPUT
+
+      - name: Comment audit report on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const filesChanged = '${{ steps.audit.outputs.files_changed }}';
+            const sensitiveFiles = `${{ steps.audit.outputs.sensitive_files }}`;
+            const branch = '${{ github.head_ref }}';
+
+            let body = `## 🤖 Agent PR Audit\n\n`;
+            body += `**Branch:** \`${branch}\`\n`;
+            body += `**Files changed:** ${filesChanged}\n\n`;
+
+            if (sensitiveFiles && sensitiveFiles !== 'none') {
+              body += `### ⚠️ Sensitive Files Changed\n`;
+              body += `\`\`\`\n${sensitiveFiles}\n\`\`\`\n`;
+              body += `> These files require security review before merging.\n\n`;
+            }
+
+            body += `---\n*Automated audit by agent-pr-check workflow*`;
+
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body
+            });
