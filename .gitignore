@@ -1,0 +1,67 @@
+# OS
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+
+# Secrets & credentials — never commit these
+*.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*secret*
+*credentials*
+
+# Node
+node_modules/
+dist/
+build/
+.next/
+.nuxt/
+*.tsbuildinfo
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+*.dist-info/
+
+# Go
+vendor/
+*.test
+
+# Lockfiles — skip in agent context (see CLAUDE.md)
+# package-lock.json  ← uncomment to gitignore, but usually you want this committed
+# poetry.lock
+# yarn.lock
+
+# IDEs
+.idea/
+.vscode/settings.json
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Test coverage
+coverage/
+.coverage
+htmlcov/
+*.lcov
+
+# Temp / cache
+tmp/
+.cache/
