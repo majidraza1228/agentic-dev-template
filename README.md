@@ -12,6 +12,7 @@ Click **"Use this template"** on GitHub and every developer on your team gets a 
 - ✅ Devcontainer for reproducible isolated environments
 - ✅ ADR templates for persistent agent memory
 - ✅ Branch protection conventions baked in
+- ✅ MCP server builder skill for Copilot and Claude — scaffold production-quality MCP servers with one command
 
 ---
 
@@ -31,7 +32,8 @@ agentic-dev-template/
 │   │   ├── coder.md
 │   │   ├── reviewer.md
 │   │   ├── tester.md
-│   │   └── architect.md
+│   │   ├── architect.md
+│   │   └── mcp-builder/              ← MCP server builder skill (Claude)
 │   ├── hooks/                    ← Event hooks: guardrails & audit (Layer 3)
 │   │   ├── pre-tool-use.sh
 │   │   ├── post-tool-use.sh
@@ -55,7 +57,20 @@ agentic-dev-template/
 │   ├── prompts/                  ← Reusable Copilot prompt templates
 │   │   ├── add-feature.prompt.md
 │   │   ├── review-pr.prompt.md
-│   │   └── generate-tests.prompt.md
+│   │   ├── generate-tests.prompt.md
+│   │   └── build-mcp-server.prompt.md  ← /build-mcp-server slash command
+│   ├── agents/                   ← Copilot agent role files (Layer 3)
+│   │   ├── coder.md
+│   │   ├── reviewer.md
+│   │   ├── tester.md
+│   │   ├── architect.md
+│   │   └── mcp-builder.md            ← MCP server builder agent
+│   ├── instructions/
+│   │   └── mcp/                      ← MCP reference docs
+│   │       ├── mcp_best_practices.md
+│   │       ├── node_mcp_server.md
+│   │       ├── python_mcp_server.md
+│   │       └── evaluation.md
 │   ├── decisions/                ← ADRs for Copilot context (Layer 4)
 │   │   └── 000-adr-template.md
 │   └── workflows/                ← CI/CD hooks for agent output
@@ -233,6 +248,7 @@ Copilot auto-loads `.github/copilot-instructions.md` every session.
 - All hooks in `.github/hooks/` fire automatically at agent lifecycle events
 - Reference agent files manually: `#file:.github/agents/reviewer.md`
 - Use prompt templates from `.github/prompts/` via the Copilot Chat prompt picker
+- Use `/build-mcp-server` to scaffold a new MCP server (see [MCP Server Development](#-mcp-server-development) below)
 - All agent PRs trigger the validation workflows automatically
 
 ### OpenAI Codex
@@ -262,7 +278,55 @@ Codex auto-reads `AGENTS.md` (root + subdirectory) on every task.
 
 ---
 
-## 🔒 Human-in-the-Loop Rules
+## � MCP Server Development
+
+This template includes a built-in MCP server builder skill for both **GitHub Copilot** and **Claude**. Use it to scaffold production-quality MCP servers that connect LLMs to any external API.
+
+### With GitHub Copilot — `/build-mcp-server`
+
+The fastest way to start:
+1. Open Copilot Chat in VS Code
+2. Type `/build-mcp-server`
+3. Fill in the `[REPLACE: ...]` placeholders (service name, language, transport, auth, tool list)
+4. Run — Copilot will research, implement, test, and evaluate the server in four phases
+
+Or attach the agent manually for a custom session:
+```
+#file:.github/agents/mcp-builder.md Build an MCP server for Stripe using TypeScript
+```
+
+### With Claude — mcp-builder skill
+
+The Claude skill lives in `.claude/agents/mcp-builder/`. Invoke it by referencing `SKILL.md` in your Claude session:
+```
+Build an MCP server for Linear. Use the mcp-builder skill.
+```
+
+### What gets built
+
+Both tools follow the same four-phase workflow:
+
+| Phase | What happens |
+|-------|--------------|
+| 1 — Research | Fetches MCP protocol docs + SDK docs, studies the target API |
+| 2 — Implement | Scaffolds project, builds API client, implements all tools with Zod/Pydantic validation and annotations |
+| 3 — Test | Runs the build, verifies with MCP Inspector |
+| 4 — Evaluate | Creates 10 realistic Q&A pairs to test LLM effectiveness |
+
+### Reference docs
+
+All reference material is in `.github/instructions/mcp/` (Copilot) and `.claude/agents/mcp-builder/reference/` (Claude):
+
+| Doc | Contents |
+|-----|----------|
+| `mcp_best_practices.md` | Naming, transport, pagination, security, annotations |
+| `node_mcp_server.md` | TypeScript/Zod patterns and complete example |
+| `python_mcp_server.md` | Python/FastMCP/Pydantic patterns and complete example |
+| `evaluation.md` | Evaluation Q&A creation and XML output format |
+
+---
+
+## �🔒 Human-in-the-Loop Rules
 
 All agents are configured to **open Draft PRs** — never auto-merge.
 
