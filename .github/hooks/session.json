@@ -1,0 +1,42 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "bash scripts/hook-session-start.sh",
+        "timeout": 15
+      },
+      {
+        "type": "command",
+        "command": "bash scripts/pre-task.sh",
+        "timeout": 30
+      }
+    ],
+    "SubagentStart": [
+      {
+        "type": "command",
+        "command": "bash scripts/hook-session-start.sh",
+        "timeout": 10
+      }
+    ],
+    "PreCompact": [
+      {
+        "type": "command",
+        "command": "bash scripts/hook-pre-compact.sh",
+        "timeout": 10
+      }
+    ],
+    "Stop": [
+      {
+        "type": "command",
+        "command": "bash scripts/post-task.sh",
+        "timeout": 60
+      },
+      {
+        "type": "command",
+        "command": "bash scripts/hook-stop-pr-draft.sh",
+        "timeout": 15
+      }
+    ]
+  }
+}
