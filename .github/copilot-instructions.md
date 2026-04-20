@@ -36,6 +36,18 @@
 
 ---
 
+## Optional Spec-Driven Workflow
+
+For non-trivial features, use spec-first execution:
+1. Define scope in `specs/<feature>/spec.md`
+2. Create implementation approach in `specs/<feature>/plan.md`
+3. Break down execution in `specs/<feature>/tasks.md`
+4. Implement only requirements mapped in those artifacts
+
+For small fixes, lightweight planning is acceptable.
+
+---
+
 ## Security Rules
 
 - **Never** hardcode secrets, API keys, tokens, or passwords

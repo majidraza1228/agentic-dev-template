@@ -152,6 +152,45 @@ scripts/hook-post-tool-lint.sh   ← pick ruff / eslint / shellcheck / golangci-
 scripts/hook-post-tool-test.sh   ← pick pytest / jest / vitest / go test / add your own
 ```
 
+### Step 7 — Optional: enable Spec-Driven Development mode
+
+If your team wants requirements-first execution, you can enable Spec Kit in this template:
+
+```bash
+bash scripts/enable-spec-driven.sh
+```
+
+This initializes Spec Kit in-place and adds the `/speckit.*` workflow commands.
+
+---
+
+## 🌱 Spec-Driven Development (Optional Mode)
+
+This template now supports two working styles:
+
+1. **Standard agentic mode**: direct implementation with hooks/guardrails.
+2. **Spec-driven mode**: `constitution → specify → plan → tasks → implement`.
+
+Use spec-driven mode when work is ambiguous, cross-team, high-risk, or needs strong auditability.
+Use standard mode for small, low-risk, tactical changes.
+
+If you already have orchestration around `/plan`, keep it.  
+Spec-driven mode complements it by adding:
+
+- `spec.md` for explicit user outcomes
+- `tasks.md` for traceable execution slices
+- measurable success criteria before coding starts
+
+### Does Spec-Driven help Codex, Claude, and Copilot?
+
+**Yes**—with different strengths:
+
+- **Copilot**: strongest native fit via `/speckit.*` prompts in this repo.
+- **Claude**: very useful for spec clarification and architecture tradeoffs before coding.
+- **Codex**: useful for deterministic execution from `tasks.md` once spec and plan are stable.
+
+Details and rollout guidance: [`docs/spec-driven-development.md`](docs/spec-driven-development.md).
+
 ---
 
 ## ⚡ Copilot Agent Hooks

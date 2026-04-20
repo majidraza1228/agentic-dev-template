@@ -59,6 +59,18 @@
 
 ---
 
+## Optional Spec-Driven Workflow
+
+For non-trivial features, use the spec-driven flow before implementation:
+1. Write `specs/<feature>/spec.md` (user scenarios + acceptance criteria)
+2. Write `specs/<feature>/plan.md` (technical design)
+3. Write `specs/<feature>/tasks.md` (execution slices)
+4. Implement against tasks, then verify against acceptance criteria
+
+For tiny fixes, a lightweight plan is acceptable.
+
+---
+
 ## File Structure
 
 <!-- TODO: Describe your project layout -->

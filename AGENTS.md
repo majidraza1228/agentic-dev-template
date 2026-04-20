@@ -50,6 +50,18 @@
 
 ---
 
+## Optional Spec-Driven Workflow
+
+For medium/large tasks, run in spec-driven mode:
+1. Create/update `specs/<feature>/spec.md` with scenarios and acceptance criteria
+2. Create/update `specs/<feature>/plan.md`
+3. Create/update `specs/<feature>/tasks.md`
+4. Implement only what maps to the spec/tasks
+
+If work is tiny and low-risk, you may skip full artifacts and document the reason in the PR.
+
+---
+
 ## Task Lifecycle Rules (Hooks)
 
 ### Before Writing Any Code
