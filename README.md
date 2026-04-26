@@ -29,6 +29,22 @@ agentic-dev-template/
 │── CONTEXT.md                    ← Live project state (update regularly)
 │── codex.yaml                    ← Codex: environment & tool config (Layer 2)
 │
+├── .codex/
+│   ├── README.md                 ← How to use repo-local Codex support files
+│   ├── agents/                   ← Optional Codex role briefs
+│   │   ├── architect.md
+│   │   ├── coder.md
+│   │   ├── reviewer.md
+│   │   └── tester.md
+│   ├── prompts/                  ← Copy/paste Codex task starters
+│   │   ├── add-feature.prompt.md
+│   │   ├── generate-tests.prompt.md
+│   │   ├── plan-change.prompt.md
+│   │   ├── review-diff.prompt.md
+│   │   └── README.md
+│   └── memory/
+│       └── decisions.md          ← Lightweight persistent Codex notes
+│
 ├── .claude/
 │   ├── claude_config.json        ← MCP server connections
 │   ├── agents/                   ← Sub-agent role definitions (Layer 2)
@@ -82,6 +98,9 @@ agentic-dev-template/
 │       ├── post-create.sh
 │       └── post-start.sh
 │
+├── .agents/
+│   └── skills/                   ← Repo-local skills available to Codex
+│
 ├── scripts/
 │   ├── pre-task.sh               ← Pre-task validation hook
 │   ├── post-task.sh              ← Post-task verification hook
@@ -116,6 +135,8 @@ CONTEXT.md        → current sprint, known issues, active work
 .github/copilot-instructions.md → same as above for Copilot
 ```
 
+These three instruction files are intentionally parallel. Keep the same core project facts, commands, policies, and architectural references in each one, then use the tool-specific sections only for Claude, Copilot, or Codex behavior.
+
 **Claude only:** Configure MCP servers you want:
 ```
 .claude/claude_config.json  → add your GitHub token, DB URL, etc.
@@ -124,6 +145,9 @@ CONTEXT.md        → current sprint, known issues, active work
 **Codex only:** Adjust environment setup:
 ```
 codex.yaml  → your install commands, runtime versions, tool permissions
+.codex/     → optional Codex role briefs + decision memory
+.codex/prompts/ → reusable copy/paste prompt starters for Codex tasks
+docs/codex-quickstart.md → prompt patterns and practical usage examples
 ```
 
 ### Step 3 — Set branch protection rules
@@ -290,8 +314,14 @@ Copilot auto-loads `.github/copilot-instructions.md` every session.
 ### OpenAI Codex
 Codex auto-reads `AGENTS.md` (root + subdirectory) on every task.
 - `codex.yaml` controls the sandbox environment
-- `scripts/pre-task.sh` and `scripts/post-task.sh` are called in task instructions
+- `.codex/agents/` gives you reusable repo-local role briefs you can reference in prompts
+- `.codex/prompts/` contains reusable prompt starters for common Codex tasks
+- `.codex/memory/decisions.md` is a lightweight place to keep durable task context
+- `.agents/skills/` is where repo-local Codex skills live
+- `scripts/pre-task.sh` runs from `codex.yaml` setup commands
+- `scripts/post-task.sh` is the verification script to run before opening the Draft PR
 - All Codex tasks create `codex/*` branches and open Draft PRs
+- Prompt examples and team conventions: [`docs/codex-quickstart.md`](docs/codex-quickstart.md)
 
 ---
 

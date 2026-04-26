@@ -1,69 +1,130 @@
 # GitHub Copilot Instructions
 
 > This file is automatically loaded by GitHub Copilot on every session.
-> Customize the TODO sections for your project.
+> Replace the placeholders below with your project's specifics.
 
 ---
 
-## Project
+## Project Overview
 
-<!-- TODO: Fill in your project details -->
+<!-- TODO: Replace with your project details -->
 **Project:** [Your project name]
-**Stack:** [Your tech stack — e.g. "Node 20, TypeScript, React 18, PostgreSQL"]
-**Purpose:** [One sentence about what this project does]
+**Repo:** [org/repo-name]
+**Purpose:** [What this project does and who it is for]
+**Status:** [Active development / Maintenance / Internal tool / etc.]
 
 ---
 
-## Code Style
+## Tech Stack
 
-<!-- TODO: Customize for your team -->
-- Follow conventions already established in the codebase — read before writing
-- All new functions must have documentation comments
-- No commented-out dead code in commits
-- Use descriptive variable names — avoid abbreviations
-- Prefer explicit over implicit
+<!-- TODO: Fill in your stack -->
+- **Language:** [e.g. Python 3.12 / Node 20 / Go 1.22]
+- **Framework:** [e.g. FastAPI / Next.js / Gin]
+- **Database:** [e.g. PostgreSQL 15 / MongoDB / SQLite]
+- **Cache:** [e.g. Redis / Memcached / None]
+- **Testing:** [e.g. pytest / Jest / go test]
+- **Linting:** [e.g. ruff + mypy / eslint + tsc / golangci-lint]
 
 ---
 
-## Testing
+## Key Commands
 
-<!-- TODO: Customize for your test framework -->
-- Write tests for all new code
-- Test files mirror source structure: `tests/[path/to/source].test.[ext]`
-- Cover: happy path, edge cases, and error states
-- Test names: `it('should [behaviour] when [condition]')`
-- Run tests before opening any PR
+<!-- TODO: Replace with your actual commands -->
+```bash
+# Install dependencies
+[your install command]
+
+# Run development server
+[your dev command]
+
+# Run tests
+[your test command]
+
+# Run linting
+[your lint command]
+
+# Run type checking
+[your typecheck command]
+```
+
+---
+
+## File Structure
+
+<!-- TODO: Describe your project layout -->
+```text
+src/           <- source code
+tests/         <- test files mirroring src/ structure
+docs/          <- documentation and ADRs
+scripts/       <- utility scripts and hooks
+```
+
+---
+
+## Coding Standards
+
+- Follow existing patterns before introducing new ones.
+- All new functions must have documentation comments.
+- Type-annotate everything when the language and codebase support it.
+- Error handling must be explicit; do not ignore failures silently.
+- Do not use `print()` or `console.log()` for production logging; use the project logger.
+- Never hardcode secrets, credentials, or environment-specific values.
+- Avoid commented-out dead code in commits.
+
+---
+
+## Testing Requirements
+
+- All new features and bug fixes must include tests.
+- Tests should live in `tests/` or the repo’s established mirrored structure.
+- Cover happy path, edge cases, and error states when relevant.
+- Run the full test suite before marking any task complete.
+- Do not open a PR with failing tests.
 
 ---
 
 ## Optional Spec-Driven Workflow
 
-For non-trivial features, use spec-first execution:
-1. Define scope in `specs/<feature>/spec.md`
-2. Create implementation approach in `specs/<feature>/plan.md`
-3. Break down execution in `specs/<feature>/tasks.md`
-4. Implement only requirements mapped in those artifacts
+For medium or large tasks, use spec-driven mode:
+1. Create or update `specs/<feature>/spec.md` with scenarios and acceptance criteria.
+2. Create or update `specs/<feature>/plan.md`.
+3. Create or update `specs/<feature>/tasks.md`.
+4. Implement only what maps to those artifacts.
 
-For small fixes, lightweight planning is acceptable.
+If the work is tiny and low risk, you may skip the full artifacts and document the reason in the PR.
 
 ---
 
-## Security Rules
+## Task Lifecycle Rules
 
-- **Never** hardcode secrets, API keys, tokens, or passwords
-- Always use environment variables for sensitive configuration
-- Sanitize all user input before use in queries or commands
-- Use parameterized queries — never string concatenation in SQL
-- Never log passwords, tokens, sessions, or PII
+### Before Writing Any Code
+1. Run the baseline test suite to confirm the current branch is healthy.
+2. Read `CONTEXT.md` for current project state.
+3. Identify the files you expect to modify.
+4. Check `docs/decisions/` for relevant architectural decisions.
+
+### While Working
+- Keep one feature or fix per branch.
+- Run linting after every file change when the hook or environment supports it.
+- If a test fails, fix it before moving to the next file.
+- Avoid unrelated refactors in the same task.
+
+### Before Finishing
+1. Run the full test suite.
+2. Run linting.
+3. Run type checking.
+4. Write a clear Draft PR description covering what changed, why, and what to review.
+5. Mark any security-sensitive changes with `# NEEDS_HUMAN_REVIEW`.
+6. Open the PR as **Draft**.
 
 ---
 
 ## Git & Branch Policy
 
-- **Never** commit to `main`, `master`, `develop`, or `release/*`
-- Agent branch naming: `copilot/<short-description>`
-- One feature/fix per branch, one PR per branch
-- Always open PRs as **Draft** first
+- Branch naming: `copilot/<short-description>`
+- Never commit directly to `main`, `master`, `develop`, or `release/*`
+- PR target: `develop`
+- Always open PRs as **Draft**
 - PR title format: `type(scope): short description`
 
 ---
@@ -71,27 +132,60 @@ For small fixes, lightweight planning is acceptable.
 ## Human Approval Required Before
 
 - Deleting any existing file
-- Modifying auth, security, or payment code
+- Modifying auth, security, payment, or other sensitive code
 - Changing database schema or migration files
 - Modifying `.github/workflows/` CI configuration
+- Reading or writing `.env`, `.pem`, `.key`, or other secret files
 - Changes affecting more than 10 files
+
+---
+
+## Protected Paths
+
+```text
+# Replace these placeholders with your real protected paths
+[your-migration-folder]/     <- database migrations
+[your-security-file]         <- auth or security code
+.github/workflows/           <- CI/CD pipelines
+*.env, *.pem, *.key          <- secrets and credentials
+```
+
+---
+
+## Architecture Decisions
+
+See `docs/decisions/` for full ADR history.
+
+Key decisions:
+- [Decision 1 — e.g. "We use PostgreSQL, not MongoDB"]
+- [Decision 2 — e.g. "All money values stored as integer cents"]
+- [Decision 3 — e.g. "Auth is JWT with 15-minute expiry and Redis refresh tokens"]
 
 ---
 
 ## Patterns to Follow
 
-<!-- TODO: Point Copilot to reference files in your codebase -->
-Reference implementations:
-- New API endpoint: `[path/to/reference/file]`
-- New component: `[path/to/reference/file]`
-- New test: `[path/to/reference/test]`
+<!-- TODO: Point agents to reference implementations in your codebase -->
+- New API endpoints: follow `[path/to/reference/file]`
+- New components or modules: follow `[path/to/reference/file]`
+- Error handling: use `[your error class/pattern]`
+- Tests: use `[path/to/reference/test]`
 
 ---
 
-## Avoid
+## Context Window Management
 
-<!-- TODO: Customize with your project's anti-patterns -->
-- Creating duplicate utilities — check if one already exists
-- Introducing new dependencies without discussing in the PR
-- Mixing refactoring with new features in the same PR
-- Skipping error handling
+- Never read lockfiles such as `package-lock.json`, `yarn.lock`, or `poetry.lock`.
+- Skip `node_modules/`, `.venv/`, `__pycache__/`, `dist/`, and `build/`.
+- For files larger than 400 lines, read only the relevant section.
+- If task scope grows too large, narrow the change or split the work.
+
+---
+
+## Copilot Workspace Files
+
+- `.github/copilot-instructions.md` is the primary instruction file Copilot reads automatically.
+- `.github/agents/` contains reusable role files for Copilot sessions.
+- `.github/prompts/` contains reusable prompt templates and slash-command content.
+- `.github/hooks/` contains Copilot lifecycle hook definitions.
+- `.github/instructions/` contains extra reference material for specialized workflows.
