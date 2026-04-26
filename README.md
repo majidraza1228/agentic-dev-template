@@ -380,6 +380,7 @@ Agents are blocked from modifying:
 - [Claude Config Stack](../Claude-Config-Stack.md)
 - [GitHub Copilot Config Stack](../GitHub-Copilot-Config-Stack.md)
 - [OpenAI Codex Config Stack](../OpenAI-Codex-Config-Stack.md)
+- [Skills Guide](SKILLS.md) — all 21 agent skills and when to use them
 
 ---
 
