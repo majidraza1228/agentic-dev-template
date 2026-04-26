@@ -62,6 +62,61 @@
 
 ---
 
+## Scaffold Consistency
+
+- [ ] **Add template-only banners consistently**
+  Ensure `README.md`, `AGENTS.md`, `CLAUDE.md`, `CONTEXT.md`, and `codex.yaml` all clearly state that shipped values are placeholders and examples.
+
+- [ ] **Keep placeholder style consistent across the repo**
+  Use one placeholder format everywhere, such as `[replace with your ...]`, so users can spot required edits immediately.
+
+- [ ] **Label all examples as examples**
+  Prefix sample commands, branch names, protected paths, and policy snippets with `Example:` where users might confuse them with defaults.
+
+- [ ] **Align instruction-file structure across tools**
+  Keep the major sections in `AGENTS.md`, `CLAUDE.md`, and `.github/copilot-instructions.md` in a similar order to reduce context switching.
+
+- [ ] **Decide whether branch prefixes are intentional**
+  Either standardize `codex/`, `agent/`, and `copilot/` naming or convert them into template placeholders with an explanation.
+
+- [ ] **Make Codex wording explicitly scaffold-oriented**
+  In `AGENTS.md`, separate repository policy from behavior Codex actually enforces so users do not assume automatic guarantees.
+
+- [ ] **Keep `codex.yaml` framed as example policy**
+  Make sure comments and values communicate that the file is a template config, not a production-safe default.
+
+- [ ] **Keep `CONTEXT.md` free of fake status**
+  Avoid placeholder rows or examples that could be mistaken for live sprint data once users copy the template.
+
+- [ ] **Add a `Customize These First` section to `README.md`**
+  Point users to the handful of files that must be edited before first use.
+
+- [ ] **Add `What this template gives you` vs `What you still need to configure`**
+  Set expectations clearly so users know which parts are scaffolded versus ready.
+
+- [ ] **Keep protected-path examples obviously illustrative**
+  Review `AGENTS.md`, `CLAUDE.md`, and related files so protected paths look like examples, not repo-specific advice.
+
+- [ ] **Keep scripts and hooks commented as extension points**
+  Ensure shell scripts explain where users should plug in their own lint, test, and workflow commands.
+
+- [ ] **Align security guidance across all three tool instruction files**
+  Make sure Codex, Claude, and Copilot are told the same baseline rules about secrets, protected files, and risky changes.
+
+- [ ] **Use one term consistently for the repo**
+  Pick `template`, `scaffold`, or `starter` and apply it consistently in public-facing docs.
+
+- [ ] **Document manual enablement requirements**
+  Note clearly where hooks, scripts, workflow permissions, or local tool config still need user setup.
+
+- [ ] **Remove overpromising language**
+  Audit phrases like `out of the box` and soften them where behavior still depends on customization.
+
+- [ ] **Do a final placeholder audit**
+  Review public-facing files and rewrite anything a new user could mistake for a real recommended default.
+
+---
+
 ## Hook Architecture
 
 - [ ] **Clarify `.github/hooks/*.json` vs `.claude/settings.local.json`**
