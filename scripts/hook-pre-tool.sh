@@ -65,16 +65,7 @@ ask() {
 }
 
 # ---------------------------------------------------------------------------
-# 1. Block pushes / commits to protected branches
-# ---------------------------------------------------------------------------
-if echo "$COMMAND" | grep -qE 'git (push|merge)'; then
-  if echo "$COMMAND" | grep -qE '\b(main|master|develop|release/)\b'; then
-    deny "Direct push/merge to protected branch is not allowed. Use a feature branch (copilot/<desc>) and open a Draft PR."
-  fi
-fi
-
-# ---------------------------------------------------------------------------
-# 2. Require confirmation for destructive git operations
+# 1. Require confirmation for destructive git operations
 # ---------------------------------------------------------------------------
 if echo "$COMMAND" | grep -qE 'git (push --force|push -f|reset --hard|clean -fd)'; then
   ask "Destructive git operation requires human confirmation before proceeding."
