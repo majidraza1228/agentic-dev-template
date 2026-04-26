@@ -1,5 +1,7 @@
 # CONTEXT.md — Live Project State
 
+> Template only: replace the sample headings and placeholders with your real project state before depending on this file during agent sessions.
+
 > Keep this file up to date. Reference it at the start of complex agent sessions:
 > - Claude: it reads `.claude/memory/` automatically; mention CONTEXT.md in your prompt for complex tasks
 > - Codex: add "Read CONTEXT.md first" to your task instructions or AGENTS.md

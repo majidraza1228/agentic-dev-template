@@ -1,5 +1,8 @@
 # 🤖 Agentic Dev Template
 
+> Template scaffold only: customize the instruction files, commands, policies, and hooks before using this repo for real development work.
+> The shipped defaults are examples and placeholders, not production-ready recommendations.
+
 > A GitHub Template Repository that wires up **Claude**, **GitHub Copilot**, and **OpenAI Codex** with best-practice agentic programming configuration — out of the box.
 
 Click **"Use this template"** on GitHub and every developer on your team gets a project pre-configured with:
@@ -44,40 +47,34 @@ agentic-dev-template/
 ├── .github/
 │   ├── copilot-instructions.md   ← Copilot: repo-wide rules (Layer 1)
 │   ├── agents/                   ← Copilot agent role files (Layer 3)
+│   │   ├── architect.md
 │   │   ├── coder.md
+│   │   ├── mcp-builder.md
 │   │   ├── reviewer.md
-│   │   ├── tester.md
-│   │   └── architect.md
+│   │   └── tester.md
 │   ├── hooks/                    ← Copilot agent lifecycle hooks (Layer 3)
-│   │   ├── session.json          ← SessionStart, PreCompact, Stop
-│   │   ├── safety.json           ← PreToolUse: branch + command guard
+│   │   ├── context.json          ← UserPromptSubmit: inject CONTEXT.md
 │   │   ├── lint.json             ← PostToolUse: auto-lint on file write
-│   │   ├── testing.json          ← PostToolUse: auto-test on file write
-│   │   └── context.json          ← UserPromptSubmit: inject CONTEXT.md
+│   │   ├── safety.json           ← PreToolUse: branch + command guard
+│   │   ├── session.json          ← SessionStart, PreCompact, Stop
+│   │   └── testing.json          ← PostToolUse: auto-test on file write
 │   ├── prompts/                  ← Reusable Copilot prompt templates
 │   │   ├── add-feature.prompt.md
-│   │   ├── review-pr.prompt.md
+│   │   ├── build-mcp-server.prompt.md  ← /build-mcp-server slash command
 │   │   ├── generate-tests.prompt.md
-│   │   └── build-mcp-server.prompt.md  ← /build-mcp-server slash command
-│   ├── agents/                   ← Copilot agent role files (Layer 3)
-│   │   ├── coder.md
-│   │   ├── reviewer.md
-│   │   ├── tester.md
-│   │   ├── architect.md
-│   │   └── mcp-builder.md            ← MCP server builder agent
+│   │   └── review-pr.prompt.md
 │   ├── instructions/
-│   │   └── mcp/                      ← MCP reference docs
+│   │   └── mcp/                  ← MCP reference docs
+│   │       ├── evaluation.md
 │   │       ├── mcp_best_practices.md
 │   │       ├── node_mcp_server.md
-│   │       ├── python_mcp_server.md
-│   │       └── evaluation.md
+│   │       └── python_mcp_server.md
 │   ├── decisions/                ← ADRs for Copilot context (Layer 4)
 │   │   └── 000-adr-template.md
 │   └── workflows/                ← CI/CD hooks for agent output
 │       ├── agent-pr-check.yml
-│       ├── label-agent-prs.yml
-│       ├── security-scan.yml
-│       └── audit-agent-changes.yml
+│       ├── audit-agent-changes.yml
+│       └── security-scan.yml
 │
 ├── .devcontainer/
 │   ├── devcontainer.json         ← Isolated reproducible environment

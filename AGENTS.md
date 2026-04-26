@@ -1,5 +1,7 @@
 # AGENTS.md — Repository Instructions
 
+> Template only: replace every placeholder, example command, and sample policy in this file before using the repo for real Codex work.
+
 > This file is automatically read by OpenAI Codex and Claude on every task/session.
 > Subdirectory AGENTS.md files are merged with this root file (more specific takes precedence).
 

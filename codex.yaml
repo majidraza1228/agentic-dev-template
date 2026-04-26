@@ -1,6 +1,7 @@
 # codex.yaml — OpenAI Codex Configuration
 # Controls the sandbox environment, tool permissions, and git behaviour for every Codex task.
 # Adjust to match your project's stack and security requirements.
+# Template only: replace placeholder commands, runtime versions, and policy examples before using this configuration for real Codex tasks.
 
 # ---------------------------------------------------------------------------
 # Git behaviour

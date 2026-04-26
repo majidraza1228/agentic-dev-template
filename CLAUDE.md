@@ -1,5 +1,7 @@
 # CLAUDE.md — Project Instructions
 
+> Template only: replace every placeholder, example command, and sample policy in this file before using the repo for real Claude sessions.
+
 > This file is automatically read by Claude at the start of every session.
 > Replace the placeholder sections below with your project's specifics.
 
