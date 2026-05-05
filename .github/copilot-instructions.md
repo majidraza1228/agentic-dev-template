@@ -5,6 +5,25 @@
 
 ---
 
+## Project Memory System
+
+The shared agent memory lives in `ai/`:
+
+- `ai/RULES.md` — always-applicable rules (load first)
+- `ai/MEMORY.md` — index of pointers to topic files and ADRs
+- `ai/topics/*.md` — on-demand topic files (load max 3–5 relevant ones per task)
+- `docs/decisions/` — canonical ADRs
+
+**Copilot Chat bootstrap** (paste at session start or when context drifts):
+
+```
+Follow ai/RULES.md. Use ai/MEMORY.md as the project memory index.
+Before suggesting changes, check relevant files in ai/topics/.
+If a new architectural decision is made, propose an ADR in docs/decisions/.
+```
+
+---
+
 ## Project Overview
 
 <!-- TODO: Replace with your project details -->
