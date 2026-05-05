@@ -1,47 +1,42 @@
-# Project Decisions — Claude Memory
+# Claude Memory — Pointer Index
 
-> This file is Claude's persistent project memory.
-> Add decisions here as they are made so Claude carries context across sessions.
-> Format: date, decision, and reason.
-
----
-
-## Decision Log
-
-<!-- Template for each entry:
-## YYYY-MM-DD: [Short decision title]
-**Decision:** [What was decided]
-**Reason:** [Why this was chosen over alternatives]
-**Impact:** [Files/areas affected]
--->
-
-## [Date]: [Your first decision]
-**Decision:** [e.g. "Use PostgreSQL as the primary database"]
-**Reason:** [e.g. "Team SQL expertise; relational data model fits our domain"]
-**Impact:** [e.g. "All data access through SQLAlchemy ORM; Alembic for migrations"]
+> Claude's canonical project memory lives in `ai/`.
+> This file is a thin pointer — do not duplicate content here.
 
 ---
 
-## Technical Constraints to Remember
+## Always Load
 
-<!-- List non-obvious technical constraints Claude should always keep in mind -->
-- [e.g. "All monetary values stored as integer cents — never floats"]
-- [e.g. "Auth tokens expire in 15 min; refresh tokens stored in Redis with matching TTL"]
-- [e.g. "The uploadToS3 utility in src/utils/storage handles all file uploads — don't create alternatives"]
+1. `ai/RULES.md` — non-negotiable rules for every session
+2. `ai/MEMORY.md` — project memory index (pointers to topics + ADRs)
+
+## Load on Demand (max 3–5 per task)
+
+| Topic | File |
+|-------|------|
+| Architecture | `ai/topics/architecture.md` |
+| Auth | `ai/topics/auth.md` |
+| Database | `ai/topics/db.md` |
+| Deployment | `ai/topics/deployment.md` |
+| Observability | `ai/topics/observability.md` |
+| Repo map | `ai/topics/repo-map.md` |
+
+## Canonical ADRs
+
+`docs/decisions/` — one file per decision, named `NNN-short-title.md`
+
+## Capture New Learnings
+
+Append bullets to `ai/MEMORY_INBOX.md` at the end of each session.
 
 ---
 
-## User / Team Preferences
+## Claude CLI Kickoff Prompt
 
-<!-- Communication and style preferences for this project -->
-- Prefer concise PR descriptions focused on "why" not just "what"
-- Code review comments should always explain the reason behind a suggestion
-- Commit messages follow Conventional Commits format
+Copy-paste at the start of a new session:
 
----
-
-## Known Workarounds
-
-<!-- Temporary fixes or technical debt that Claude should know about -->
-- [e.g. "GET /users/{id} returns 500 on soft-deleted users — bug #342, not yet fixed"]
-- [e.g. "Redis connection pool configured conservatively — do not increase pool size without testing"]
+```
+1. Read ai/RULES.md and ai/MEMORY.md.
+2. Tell me which additional ai/topics/*.md or docs/decisions/*.md files you need (max 5).
+3. After finishing, write 5–10 bullets to ai/MEMORY_INBOX.md with file pointers.
+```
