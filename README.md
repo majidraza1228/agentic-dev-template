@@ -137,6 +137,15 @@ CONTEXT.md        → current sprint, known issues, active work
 
 These three instruction files are intentionally parallel. Keep the same core project facts, commands, policies, and architectural references in each one, then use the tool-specific sections only for Claude, Copilot, or Codex behavior.
 
+### Memory conventions vs industry standards
+
+- `ai/` in this template is a **repo convention**, not a universal framework standard.
+- What is common across teams today is:
+  - tool-specific instruction files (`AGENTS.md`, `.github/copilot-instructions.md`, `CLAUDE.md`)
+  - ADRs in `docs/decisions/` (or `docs/adr/`)
+  - standard project docs like `README.md` and `CONTRIBUTING.md`
+- In this repo, Copilot is configured to use the shared memory system through `.github/copilot-instructions.md`, which points to `ai/RULES.md`, `ai/MEMORY.md`, and relevant `ai/topics/*.md` files.
+
 **Claude only:** Configure MCP servers you want:
 ```
 .claude/claude_config.json  → add your GitHub token, DB URL, etc.

@@ -7,19 +7,27 @@
 
 ## Project Memory System
 
-The shared agent memory lives in `ai/`:
+Copilot uses the shared memory system in `ai/` as the canonical source of project context:
 
-- `ai/RULES.md` — always-applicable rules (load first)
-- `ai/MEMORY.md` — index of pointers to topic files and ADRs
-- `ai/topics/*.md` — on-demand topic files (load max 3–5 relevant ones per task)
-- `docs/decisions/` — canonical ADRs
+- `ai/RULES.md` — always-load global rules
+- `ai/MEMORY.md` — index file (quick pointers only)
+- `ai/topics/*.md` — load only relevant topic files per task (max 3-5)
+- `docs/decisions/` — ADRs (architectural decisions)
+
+**Operating protocol for Copilot**
+
+1. Load `ai/RULES.md` and `ai/MEMORY.md` first.
+2. Select relevant topic docs from `ai/topics/` based on task scope.
+3. Follow existing ADRs from `docs/decisions/` before proposing structural changes.
+4. If a new architecture decision is made, propose/update an ADR in `docs/decisions/`.
 
 **Copilot Chat bootstrap** (paste at session start or when context drifts):
 
-```
-Follow ai/RULES.md. Use ai/MEMORY.md as the project memory index.
-Before suggesting changes, check relevant files in ai/topics/.
-If a new architectural decision is made, propose an ADR in docs/decisions/.
+```text
+Follow ai/RULES.md and ai/MEMORY.md first.
+Then load only relevant ai/topics/*.md files (max 3-5).
+Respect existing ADRs in docs/decisions/ before changing architecture.
+If a new architectural decision is made, propose/update an ADR.
 ```
 
 ---
