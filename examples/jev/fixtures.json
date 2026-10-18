@@ -1,0 +1,6 @@
+[
+  {"ticket":"I was charged twice. Please refund the extra payment.","answer":{"type":"choice","choice":"billing","probabilities":{"billing":0.97,"technical":0.02,"account":0.01}},"expected":"billing"},
+  {"ticket":"Every API request returns HTTP 500.","answer":{"type":"choice","choice":"technical","probabilities":{"billing":0.03,"technical":0.95,"account":0.02}},"expected":"technical"},
+  {"ticket":"I forgot my password and cannot log in.","answer":{"type":"choice","choice":"account","probabilities":{"billing":0.02,"technical":0.03,"account":0.95}},"expected":"account"},
+  {"ticket":"The export failed and my credits look wrong.","answer":{"type":"choice","choice":"billing","probabilities":{"billing":0.55,"technical":0.40,"account":0.05}},"expected":"human_review"}
+]
