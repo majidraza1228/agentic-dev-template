@@ -415,3 +415,7 @@ Agents are blocked from modifying:
 ---
 
 *Template version: April 2026 | Maintained by your team*
+
+## Jev decision example
+
+See [the runnable Jev support-ticket router](examples/jev/README.md) for an offline demo, live requests using `JEV_API_KEY`, and complete setup and test instructions.
